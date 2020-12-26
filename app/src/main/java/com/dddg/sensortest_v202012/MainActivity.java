@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
                 intent.putExtra("fileName", etxtFileName.getText().toString());
                 intent.putExtra("timeInterval", Integer.parseInt(etxtTimeInterval.getText().toString()));
-                intent.putExtra("sensorSpeed", rg.getCheckedRadioButtonId());
+                int s=0;
+                if(rg.getCheckedRadioButtonId() == R.id.rbtn1){
+                    s = SensorManager.SENSOR_DELAY_FASTEST;
+                }else if(rg.getCheckedRadioButtonId() == R.id.rbtn2){
+                    s = SensorManager.SENSOR_DELAY_GAME;
+                }else if(rg.getCheckedRadioButtonId() == R.id.rbtn3){
+                    s = SensorManager.SENSOR_DELAY_UI;
+                }else{
+                    s = SensorManager.SENSOR_DELAY_NORMAL;
+                }
+                intent.putExtra("sensorSpeed", s);
                 startActivity(intent);
             }
         });

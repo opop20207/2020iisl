@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -67,19 +68,8 @@ public class WriteActivity extends AppCompatActivity implements SensorEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
-        sensorSpeed = getIntent().getIntExtra("sensorSpeed",R.id.rbtn1);
-        switch(sensorSpeed){
-            case R.id.rbtn1:
-                sensorSpeed = SensorManager.SENSOR_DELAY_FASTEST;
-            case R.id.rbtn2:
-                sensorSpeed = SensorManager.SENSOR_DELAY_GAME;
-            case R.id.rbtn3:
-                sensorSpeed = SensorManager.SENSOR_DELAY_UI;
-            case R.id.rbtn4:
-                sensorSpeed = SensorManager.SENSOR_DELAY_NORMAL;
-        }
-        Log.e("sensorSpeed",sensorSpeed+"!");
-
+        sensorSpeed = getIntent().getIntExtra("sensorSpeed",0);
+        Log.e("!!",sensorSpeed+"!");
         filename = getIntent().getStringExtra("fileName");
         timeInterval = getIntent().getIntExtra("timeInterval", 500);
 
@@ -91,6 +81,13 @@ public class WriteActivity extends AppCompatActivity implements SensorEventListe
         sensorManager.registerListener(this,accSensor,sensorSpeed);
 
         btnStop = (Button)findViewById(R.id.btnStop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                threadStop();
+                finish();
+            }
+        });
         txvNum = (TextView)findViewById(R.id.txvNum);
 
         xSum=zSum=velX=velZ=zDist=0.0;
@@ -152,7 +149,6 @@ public class WriteActivity extends AppCompatActivity implements SensorEventListe
         sensorManager.registerListener(this,accSensor,sensorSpeed);
     }
 
-    // 잠시 종료하는 경우 (홈 버튼 누르는거 같이)
     @Override
     protected void onPause() {
         super.onPause();
