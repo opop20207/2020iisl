@@ -39,8 +39,6 @@ public class WriteActivity extends AppCompatActivity implements SensorEventListe
     private double RAD2DGR=180/Math.PI;
     private static final double NS2S = 1.0f/1000000000.0f;
 
-    private boolean fileWrite=false;
-    private boolean fileRead=false;
     private String filename="";
     private int timeInterval=500;
     private int sensorSpeed=0;
@@ -94,6 +92,13 @@ public class WriteActivity extends AppCompatActivity implements SensorEventListe
 
         btnStop = (Button)findViewById(R.id.btnStop);
         txvNum = (TextView)findViewById(R.id.txvNum);
+
+        xSum=zSum=velX=velZ=zDist=0.0;
+        xDet=0;
+        Freq=0;
+        times=0;
+        thread=new myThread();
+        threadStart();
     }
 
     @Override

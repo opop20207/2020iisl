@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         etxtFileName = (EditText) findViewById(R.id.etxtFileName);
         etxtTimeInterval = (EditText) findViewById(R.id.etxtTimeInterval);
 
+        checkFilePermission();
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkFilePermission();
                 Intent intent = new Intent(getApplicationContext(), WriteActivity.class);
                 intent.putExtra("fileName", etxtFileName.getText().toString());
                 intent.putExtra("timeInterval", Integer.parseInt(etxtTimeInterval.getText().toString()));
